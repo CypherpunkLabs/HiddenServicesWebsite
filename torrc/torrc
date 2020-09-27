@@ -1,4 +1,3 @@
-
 ## Configuration file for a typical Tor user
 ## Last updated 28 February 2019 for Tor 0.3.5.1-alpha.
 ## (may or may not work for much older or much newer versions of Tor.)
@@ -12,6 +11,12 @@
 ##
 ## Tor will look for this file in various places based on your platform:
 ## https://www.torproject.org/docs/faq#torrc
+
+ControlSocket /run/tor/control
+ControlSocketsGroupWritable 1
+CookieAuthentication 1
+CookieAuthFile /run/tor/control.authcookie
+CookieAuthFileGroupReadable 1
 
 ## Tor opens a SOCKS proxy on port 9050 by default -- even if you don't
 ## configure one below. Set "SOCKSPort 0" if you plan to run Tor only
@@ -161,7 +166,7 @@ HiddenServicePort 80 127.0.0.1:80
 ## can explain what Tor is if anybody wonders why your IP address is
 ## contacting them. See contrib/tor-exit-notice.html in Tor's source
 ## distribution for a sample.
-#DirPortFrontPage @CONFDIR@/tor-exit-notice.html
+#DirPortFrontPage /etc/tor/tor-exit-notice.html
 
 ## Uncomment this if you run more than one Tor relay, and add the identity
 ## key fingerprint of each Tor relay you control, even if they're on
@@ -243,11 +248,11 @@ HiddenServicePort 80 127.0.0.1:80
 #PublishServerDescriptor 0
 
 ## Configuration options can be imported from files or folders using the %include
-## option with the value being a path. This path can have wildcards. Wildcards are 
-## expanded first, using lexical order. Then, for each matching file or folder, the following 
-## rules are followed: if the path is a file, the options from the file will be parsed as if 
-## they were written where the %include option is. If the path is a folder, all files on that 
-## folder will be parsed following lexical order. Files starting with a dot are ignored. Files 
-## on subfolders are ignored.
+## option with the value being a path. If the path is a file, the options from the
+## file will be parsed as if they were written where the %include option is. If
+## the path is a folder, all files on that folder will be parsed following lexical
+## order. Files starting with a dot are ignored. Files on subfolders are ignored.
 ## The %include option can be used recursively.
-#%include /etc/torrc.d/*.conf
+#%include /etc/torrc.d/
+#%include /etc/torrc.custom
+
